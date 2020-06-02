@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.leyou.dao.SpuMapper">
+    <select id="selectSpu" resultType="spu">
+        SELECT s.*,
+        s.brand_id brandId,
+        s.sub_title subTitle,
+        s.create_time createTime,
+        b.name bname,
+        CONCAT_WS('/',(SELECT c1.name FROM tb_category c1 WHERE c1.id=s.cid1),(SELECT c2.name FROM tb_category c2 WHERE
+        c2.id=s.cid2),(SELECT c3.name FROM tb_category c3 WHERE c3.id=s.cid3)) cname
+        FROM tb_brand b,tb_spu s
+        <where>
+            s.brand_id=b.id and s.valid=1
+            <if test="key!=null and key!=''">
+                and title like '%${key}%'
+            </if>
+            <if test="saleable!=2">
+                and s.saleable=#{saleable}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSpuLimit" resultType="spu">
+        SELECT s.id,s.title,b.name bname,s.saleable,s.brand_id,s.cid1,s.cid2,s.cid3,s.sub_title,
+        CONCAT_WS('/',(SELECT c1.name FROM tb_category c1 WHERE c1.id=s.cid1),(SELECT c2.name FROM tb_category c2 WHERE
+        c2.id=s.cid2),(SELECT c3.name FROM tb_category c3 WHERE c3.id=s.cid3)) cname
+        FROM tb_brand b,tb_spu s
+        <where>
+            s.brand_id=b.id and s.valid=1
+            <if test="key!=null and key!=''">
+                and title like '%${key}%'
+            </if>
+            <if test="saleable!=2">
+                and s.saleable =#{saleable}
+            </if>
+        </where>
+        limit #{page},#{rows}
+    </select>
+
+    <select id="findSpuCount" resultType="long">
+        SELECT count(*) FROM tb_brand b,tb_spu s
+        <where>
+            s.brand_id=b.id and s.valid=1
+            <if test="key!=null and key!=''">
+                and title like '%${key}%'
+            </if>
+            <if test="saleable!=2">
+                and s.saleable =#{saleable}
+            </if>
+        </where>
+    </select>
+
+</mapper>
