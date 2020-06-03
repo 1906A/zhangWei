@@ -123,23 +123,26 @@
             </div>
             <!--selector-->
             <div class="clearfix selector">
-                <div class="type-wrap" v-for="f in filters" v-show="f.key=='分类'">
+                <div class="type-wrap" v-for="(f,index) in filters" v-if="f.key!='品牌'" v-show="index<5||show">
                     <div class="fl key">{{f.key}}</div>
                     <div class="fl value">
-                        <ul class="type-list" v-for="o in f.options">
-                            <li>
+                        <ul class="type-list">
+                            <li v-for="o in f.options" @click="paramsSpec(f,o)">
                                 <a>{{o.name}}</a>
                             </li>
                         </ul>
                     </div>
                     <div class="fl ext"></div>
                 </div>
-                <div class="type-wrap logo" v-for="f in filters" v-show="f.key=='品牌'">
+                <div class="type-wrap logo" v-else v-show="index<5||show">
                     <div class="fl key brand">{{f.key}}</div>
                     <div class="value logos">
-                        <ul class="logo-list" v-for="o in f.options">
-                            <li><img :src="o.image" v-show="o.image!=''"/></li>
-                            <li style="text-align: center" v-show="o.image==''"><a style="line-height: 30px; font-size: 12px" href="#">{{o.name}}</a>
+                        <ul class="logo-list" >
+                            <li v-for="o in f.options" @click="paramsSpec(f,o)">
+                                <img :src="o.image" v-show="o.image!=''"/>
+                            </li>
+                            <li v-for="o in f.options" @click="paramsSpec(f,o)" style="text-align: center" v-show="o.image==''">
+                                <a style="line-height: 30px; font-size: 12px" href="#">{{o.name}}</a>
                             </li>
                         </ul>
                     </div>
@@ -147,7 +150,7 @@
                         <a href="javascript:void(0);" class="sui-btn">多选</a>
                     </div>
                 </div>
-                <div class="type-wrap">
+               <!-- <div class="type-wrap">
                     <div class="fl key">网络制式</div>
                     <div class="fl value">
                         <ul class="type-list">
@@ -248,7 +251,7 @@
                     </div>
                     <div class="fl ext">
                     </div>
-                </div>
+                </div>-->
                 <div class="type-wrap" style="text-align: center">
                     <v-btn small flat>
                         更多
@@ -451,14 +454,30 @@
             ly,
             search: {
                 key: "",
-                page: 1
+                page: 1,
+                filter:{},
             },
             goodsList: [],//接受搜索的结果
             total: 0,//总条数
             totalPage: 0,//总页数
-            filters:[]
+            filters:[],
+            show:false,
         },
         methods: {
+            paramsSpec(f,o){
+                let searchTemp={}; //定义一个临时的对象
+                Object.assign(searchTemp,this.search);//将search对象copy到searchTemp对象中
+                let value=0;
+                if (f.key=='分类'||f.key=='品牌'){
+                    value=o.id;
+                }else {
+                    value=o.name;
+                }
+
+                searchTemp.filter[f.key]=value;
+                this.search=searchTemp;
+
+            },
             orderby(v){
               this.search.sortby=v;
               this.search.descending=!this.search.descending;
@@ -507,6 +526,9 @@
                         });
 
 
+                        data.paramList.forEach(p=>{
+                           this.filters.push(p);
+                        });
 
                     }).catch(error => {
 
@@ -522,6 +544,8 @@
                 search.page = 1; //没有的找到page的时候给page一个默认初始化值
             }
             this.search = search;
+            //给search.filter默认初始化值
+            search.filter=search.filter||{};
             //排序初始化值
             this.search.sortby="createTime";
             this.search.descending=false;
