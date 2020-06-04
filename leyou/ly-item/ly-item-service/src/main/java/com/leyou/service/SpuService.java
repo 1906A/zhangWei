@@ -178,4 +178,14 @@ public class SpuService {
         spu.setSaleable(saleable == 1 ? true : false);
         mapper.updateByPrimaryKeySelective(spu);
     }
+
+    /**
+     * 根据spuid查询spu
+     *
+     * @param id
+     * @return
+     */
+    public Spu selectBySpuId(Long id) {
+        return mapper.selectByPrimaryKey(id);
+    }
 }

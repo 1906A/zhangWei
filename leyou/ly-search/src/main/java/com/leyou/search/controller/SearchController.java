@@ -1,16 +1,16 @@
 package com.leyou.search.controller;
 
 import com.leyou.common.PageResult;
+import com.leyou.search.client.SpecClient;
+import com.leyou.search.pojo.Goods;
+import com.leyou.search.repository.GoodsRepository;
 import com.leyou.pojo.Brand;
 import com.leyou.pojo.Category;
 import com.leyou.pojo.SpecParam;
 import com.leyou.search.client.BrandClient;
 import com.leyou.search.client.CategoryClient;
-import com.leyou.search.client.SpecClient;
-import com.leyou.search.pojo.Goods;
 import com.leyou.search.pojo.SearchRequest;
 import com.leyou.search.pojo.SearchResult;
-import com.leyou.search.repository.GoodsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.Operator;

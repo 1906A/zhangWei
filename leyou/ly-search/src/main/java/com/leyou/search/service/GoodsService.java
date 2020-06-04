@@ -2,14 +2,14 @@ package com.leyou.search.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leyou.pojo.Sku;
-import com.leyou.pojo.SpecParam;
-import com.leyou.pojo.Spu;
-import com.leyou.pojo.SpuDetail;
 import com.leyou.search.client.SkuClient;
 import com.leyou.search.client.SpecClient;
 import com.leyou.search.client.SpuClient;
 import com.leyou.search.pojo.Goods;
+import com.leyou.pojo.Sku;
+import com.leyou.pojo.SpecParam;
+import com.leyou.pojo.Spu;
+import com.leyou.pojo.SpuDetail;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

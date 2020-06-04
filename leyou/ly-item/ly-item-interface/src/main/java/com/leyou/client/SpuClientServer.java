@@ -18,4 +18,7 @@ public interface SpuClientServer {
 
     @RequestMapping("detail/{spuId}")
     public SpuDetail findSpuDetailBySpuId(@PathVariable("spuId") Long spuId);
+
+    @RequestMapping("selectBySpuId")
+    public Spu selectBySpuId(@RequestParam("id") Long id);
 }

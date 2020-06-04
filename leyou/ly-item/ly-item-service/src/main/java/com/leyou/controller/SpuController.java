@@ -82,4 +82,15 @@ public class SpuController {
         spuService.putOrOut(spuId, saleable);
     }
 
+    /**
+     * 根据spuid查询spu
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("selectBySpuId")
+    public Spu selectBySpuId(@RequestParam("id")Long id){
+        return spuService.selectBySpuId(id);
+    }
+
 }

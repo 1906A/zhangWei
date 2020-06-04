@@ -59,6 +59,18 @@ public class CategoryService {
      * @return
      */
     public Category findByCategoryId(Long id) {
-       return mapper.selectByPrimaryKey(id);
+        return mapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 根据多个分类id查询多个分类名
+     *
+     * @param cid1
+     * @param cid2
+     * @param cid3
+     * @return
+     */
+    public List<Category> selectByCIds(Long cid1, Long cid2, Long cid3) {
+        return mapper.selectByCIds(cid1, cid2, cid3);
     }
 }

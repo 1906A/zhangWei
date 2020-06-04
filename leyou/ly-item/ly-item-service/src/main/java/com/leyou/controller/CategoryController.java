@@ -105,4 +105,20 @@ public class CategoryController {
        return service.findByCategoryId(id);
     }
 
+    /**
+     * 根据多个分类id查询多个分类名
+     * @param cid1
+     * @param cid2
+     * @param cid3
+     * @return
+     */
+    @RequestMapping("selectByCIds")
+    public List<Category> findByCategoryIds(
+            @RequestParam("cid1") Long cid1,
+            @RequestParam("cid2") Long cid2,
+            @RequestParam("cid3") Long cid3
+    ) {
+       return service.selectByCIds(cid1,cid2,cid3);
+    }
+
 }

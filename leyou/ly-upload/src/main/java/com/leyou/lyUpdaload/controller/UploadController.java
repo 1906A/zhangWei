@@ -42,7 +42,9 @@ public class UploadController {
 
             return httpImage + path;
 
-           /* //加载客户端配置文件，配置文件中指明了tracker服务器的地址
+           /*
+
+           //加载客户端配置文件，配置文件中指明了tracker服务器的地址
             ClientGlobal.init("fastdfs.conf");
             //验证配置文件是否加载成功
             System.out.println(ClientGlobal.configInfo());

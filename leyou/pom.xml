@@ -10,7 +10,8 @@
         <module>ly-common</module>
 		<module>ly-upload</module>
         <module>ly-search</module>
-    </modules>
+		<module>ly-good-web</module>
+	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
