@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="utf-8" />
@@ -100,19 +100,13 @@
 		<div id="item">
 			<div class="crumb-wrap">
 				<ul class="sui-breadcrumb">
-					<li>
-						<a href="#">手机</a>
+					<li th:each="category:${categoryList}">
+						<a href="#" th:text="${category.name}">手机</a>
 					</li>
 					<li>
-						<a href="#">手机通讯</a>
+						<a href="#" th:text="${brand.name}">Apple</a>
 					</li>
-					<li>
-						<a href="#">手机</a>
-					</li>
-					<li>
-						<a href="#">Apple</a>
-					</li>
-					<li class="active">Apple iPhone 6s</li>
+					<li class="active" th:text="${spu.title}">Apple iPhone 6s</li>
 				</ul>
 			</div>
 			<!--product-info-->
@@ -149,7 +143,7 @@
 				</div>
 				<div class="fr itemInfo-wrap">
 					<div class="sku-name">
-						<h4>Apple iPhone 6s（A1700）64G玫瑰金色 移动通信电信4G手机</h4>
+						<h4 th:text="${}">Apple iPhone 6s（A1700）64G玫瑰金色 移动通信电信4G手机</h4>
 					</div>
 					<div class="news"><span>推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返</span></div>
 					<div class="summary">
@@ -670,6 +664,13 @@
 <script src="/js/vue/vue.js"></script>
 <script src="/js/axios.min.js"></script>
 <script src="/js/common.js"></script>
+
+<script th:inline="javascript">
+
+	const categoryList=/*[[${categoryList}]]*/ [];
+	console.log(categoryList);
+
+</script>
 
 <script>
     var itemVm = new Vue({

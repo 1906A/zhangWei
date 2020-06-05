@@ -10,4 +10,7 @@ import java.util.List;
 public interface SpecClientServer {
     @RequestMapping("paramsByCid")
     public List<SpecParam> selectSpecParamByCidAndSearching(@RequestParam("cid") Long cid);
+
+    @RequestMapping("paramsByCidAndGeneric")
+    public List<SpecParam> selectSpecParamByCidAndGeneric(@RequestParam("cid") Long cid, @RequestParam("generic") Boolean generic);
 }

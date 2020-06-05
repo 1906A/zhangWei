@@ -48,6 +48,17 @@ public class SpecParamController {
     }
 
     /**
+     * * 根据分类id+是否通用参数的值查询
+     *
+     * @param cid
+     * @return
+     */
+    @RequestMapping("paramsByCidAndGeneric")
+    public List<SpecParam> selectSpecParamByCidAndGeneric(@RequestParam("cid") Long cid, @RequestParam("generic") Boolean generic) {
+        return specParamService.selectSpecParamByCidAndGeneric(cid, generic);
+    }
+
+    /**
      * 添加商品分组参数
      *
      * @param specParam
