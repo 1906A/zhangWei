@@ -1,7 +1,9 @@
 package com.leyou.service;
 
 import com.leyou.dao.SpecGroupMapper;
+import com.leyou.dao.SpecParamMapper;
 import com.leyou.pojo.SpecGroup;
+import com.leyou.pojo.SpecParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ import java.util.List;
 public class SpecGroupService {
     @Autowired
     private SpecGroupMapper mapper;
+    @Autowired
+    private SpecParamMapper specParamMapper;
 
     /**
      * 保存商品规格组
@@ -28,9 +32,23 @@ public class SpecGroupService {
      * @param cid
      */
     public List<SpecGroup> selectSpecGroup(Long cid) {
+
         SpecGroup specGroup = new SpecGroup();
+//根据分类id 查询规格参数及组内的参数列表
+
         specGroup.setCid(cid);
-        return mapper.select(specGroup);
+
+        List<SpecGroup> groupList = mapper.select(specGroup);
+
+        groupList.forEach(group -> {
+
+            SpecParam param = new SpecParam();
+
+            param.setGroupId(group.getId());
+//            List<SpecParam> paramList = specParamMapper.select(param);
+            group.setSpecParamList(specParamMapper.select(param));
+        });
+        return groupList;
     }
 
     /**

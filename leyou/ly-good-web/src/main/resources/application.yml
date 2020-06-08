@@ -6,6 +6,9 @@ spring:
   main:
     allow-bean-definition-overriding: true #允许多个接口指向同一个service
 
+  thymeleaf:
+    cache: false
+
 eureka:
   client:
     service-url:

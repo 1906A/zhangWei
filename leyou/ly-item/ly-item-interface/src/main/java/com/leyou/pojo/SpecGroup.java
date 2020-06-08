@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
+
 @Data
 @Table(name = "tb_spec_group")
 public class SpecGroup {
@@ -14,4 +16,5 @@ public class SpecGroup {
     private Long id;
     private Long cid;
     private String name;
+    private List<SpecParam> specParamList;
 }

@@ -27,4 +27,5 @@ logging:
 mybatis:
   type-aliases-package: com.leyou.pojo  #    实体类别名
   mapper-locations: classpath:mappers/*.xml #  扫描 mapper.xml文件
-
+  configuration:
+    map-underscore-to-camel-case: true
