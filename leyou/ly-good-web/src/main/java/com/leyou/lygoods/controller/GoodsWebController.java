@@ -128,7 +128,7 @@ public class GoodsWebController {
             File file = new File("E:\\frame\\nginx-1.16.1\\html\\" + spu.getId() + ".html");
 
             printWriter = new PrintWriter(file);
-            //4.执行静态化
+            //4.执行静态化--
             templateEngine.process("item", context, printWriter);
 
         } catch (FileNotFoundException e) {
