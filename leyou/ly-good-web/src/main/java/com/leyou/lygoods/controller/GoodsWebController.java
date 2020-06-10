@@ -1,7 +1,7 @@
 package com.leyou.lygoods.controller;
 
 import com.leyou.lygoods.client.*;
-import com.leyou.pojo.*;
+import com.leyou.lygoods.service.GoodsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,13 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.List;
 
 @Controller
 @Slf4j
@@ -42,6 +37,9 @@ public class GoodsWebController {
     @Autowired
     TemplateEngine templateEngine;
 
+    @Autowired
+    GoodsService goodsService;
+
     @RequestMapping("test")
     public String test(Model model) {
         model.addAttribute("aaa", "aaaa");
@@ -57,7 +55,7 @@ public class GoodsWebController {
      */
     @GetMapping("item/{id}.html")
     public String item(@PathVariable("id") Long id, Model model) {
-        //获取spu
+        /*//获取spu
         Spu spu = spuClient.selectBySpuId(id);
         model.addAttribute("spu", spu);
         //获取spuDetail
@@ -90,10 +88,13 @@ public class GoodsWebController {
         model.addAttribute("brand", brand);
 
 
-        //写入静态文件
-        createHtml(spu, spuDetail, categoryList, brand, skuList, specGroups, paramsMap);
+*/
+        HashMap<String, Object> map = goodsService.item(id);
+        model.addAllAttributes(map);
 
-        log.info("-----------------------");
+        //写入静态文件
+        goodsService.createHtml(id);
+
         return "item";
     }
 
@@ -108,6 +109,7 @@ public class GoodsWebController {
      * @param specGroups
      * @param paramsMap
      */
+/*
     private void createHtml(Spu spu, SpuDetail spuDetail, List<Category> categoryList, Brand brand, List<Sku> skuList, List<SpecGroup> specGroups, HashMap<Long, Object> paramsMap) {
         PrintWriter printWriter = null;
 
@@ -142,4 +144,5 @@ public class GoodsWebController {
 
 
     }
+*/
 }

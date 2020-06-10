@@ -89,8 +89,13 @@ public class SpuController {
      * @return
      */
     @RequestMapping("selectBySpuId")
-    public Spu selectBySpuId(@RequestParam("id")Long id){
+    public Spu selectBySpuId(@RequestParam("id") Long id) {
         return spuService.selectBySpuId(id);
+    }
+
+    @RequestMapping("selectSpuBySpuId")
+    public Spu selectSpuBySpuId(@RequestParam("spuId") Long spuId) {
+        return spuService.selectSpuBySpuId(spuId);
     }
 
 }

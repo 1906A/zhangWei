@@ -22,4 +22,5 @@ public interface SpuMapper extends Mapper<Spu> {
                       @Param("saleable") Integer saleable);
 
 
+    Spu selectSpuBySpuId(@Param("spuId") Long spuId);
 }

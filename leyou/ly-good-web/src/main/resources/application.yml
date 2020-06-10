@@ -5,9 +5,10 @@ spring:
     name: good-service
   main:
     allow-bean-definition-overriding: true #允许多个接口指向同一个service
-
   thymeleaf:
     cache: false
+  rabbitmq:
+    host: 192.168.58.132
 
 eureka:
   client:

@@ -21,4 +21,7 @@ public interface SpuClientServer {
 
     @RequestMapping("selectBySpuId")
     public Spu selectBySpuId(@RequestParam("id") Long id);
+
+    @RequestMapping("selectSpuBySpuId")
+    public Spu selectSpuBySpuId(@RequestParam("spuId") Long spuId);
 }

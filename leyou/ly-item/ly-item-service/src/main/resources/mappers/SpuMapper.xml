@@ -51,4 +51,20 @@
         </where>
     </select>
 
+
+    <select id="selectSpuBySpuId" resultType="spu">
+        SELECT s.*,
+        s.brand_id brandId,
+        s.sub_title subTitle,
+        s.create_time createTime,
+        b.name bname,
+        CONCAT_WS('/',(SELECT c1.name FROM tb_category c1 WHERE c1.id=s.cid1),(SELECT c2.name FROM tb_category c2 WHERE
+        c2.id=s.cid2),(SELECT c3.name FROM tb_category c3 WHERE c3.id=s.cid3)) cname
+        FROM tb_brand b,tb_spu s
+        <where>
+            s.brand_id=b.id and s.valid=1
+           and s.id=#{spuId}
+        </where>
+    </select>
+
 </mapper>

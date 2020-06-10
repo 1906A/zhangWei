@@ -11,6 +11,7 @@ import com.leyou.pojo.Sku;
 import com.leyou.pojo.Spu;
 import com.leyou.pojo.SpuDetail;
 import com.leyou.pojo.Stock;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,9 @@ public class SpuService {
     private SKuMapper sKuMapper;
     @Autowired
     private StockMapper stockMapper;
+
+    @Autowired
+    AmqpTemplate amqpTemplate;
 
     /**
      * 手写分页查询全部
@@ -90,6 +94,21 @@ public class SpuService {
             stockMapper.insert(stock);//保存商品库存表
         });
 
+        //发送添加的Msg
+        this.sendMsg("insert", s.getId());
+
+    }
+
+    /**
+     * 将发送msg抽取出来
+     *
+     * @param type  可能是添加或删除
+     * @param spuId
+     */
+    public void sendMsg(String type, Long spuId) {
+        //发送mq消息  1.交换机名字   2.routing key, type有可能是insert或update  3.消息内容
+        amqpTemplate.convertAndSend("item.exchange", "item." + type, spuId);
+
     }
 
     /**
@@ -118,7 +137,7 @@ public class SpuService {
         spuDetail.setSpuId(s.getId());
         spuDetailMapper.updateByPrimaryKeySelective(spuDetail);//保存spu扩展表
 
-        List<Sku> skus = s.getSkus();
+       /* List<Sku> skus = s.getSkus();
         skus.forEach(sku1 -> {
             sku1.setEnable(false);//删除sku记录操作
             sku1.setSpuId(s.getId());
@@ -127,7 +146,15 @@ public class SpuService {
             sKuMapper.updateByPrimaryKeySelective(sku1);//保存sku表
 
             stockMapper.deleteByPrimaryKey(sku1.getId());//删除库存表操作
+        });*/
+
+        // 使用spu的id去拿到sku,将sku和库存删除
+       List<Sku> skuList = sKuMapper.getSkuListBySpuId(s.getId());
+        skuList.forEach(sku->{
+            sKuMapper.deleteByPrimaryKey(sku.getId());
+            stockMapper.deleteByPrimaryKey(sku.getId());
         });
+//然后添加
         List<Sku> skus1 = s.getSkus();
         skus1.forEach(sku -> {
             sku.setSpuId(s.getId());
@@ -141,6 +168,9 @@ public class SpuService {
             stock.setStock(sku.getStock());
             stockMapper.insert(stock);//保存商品库存表
         });
+
+        //发送修改的Msg
+        this.sendMsg("update", s.getId());
     }
 
     /**
@@ -164,7 +194,7 @@ public class SpuService {
         //删除spu
         mapper.deleteByPrimaryKey(spuId);
 
-
+        this.sendMsg("delete",spuId);
     }
 
     /**
@@ -187,5 +217,9 @@ public class SpuService {
      */
     public Spu selectBySpuId(Long id) {
         return mapper.selectByPrimaryKey(id);
+    }
+
+    public Spu selectSpuBySpuId(Long spuId) {
+        return mapper.selectSpuBySpuId(spuId);
     }
 }

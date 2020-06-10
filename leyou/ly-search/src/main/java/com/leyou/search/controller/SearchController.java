@@ -52,7 +52,7 @@ public class SearchController {
 
     @RequestMapping("page")
     public PageResult<Goods> page(@RequestBody SearchRequest searchRequest) {
-        log.info("--------------------" + searchRequest.getKey() + "------------" + searchRequest.getPage());
+//        log.info("--------------------" + searchRequest.getKey() + "------------" + searchRequest.getPage());
 //使用多条件的查询
         NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
 //使用all字段匹配,默认的关系是 or 改为and 关系

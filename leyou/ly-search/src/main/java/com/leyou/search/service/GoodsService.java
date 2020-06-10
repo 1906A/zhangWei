@@ -10,6 +10,7 @@ import com.leyou.pojo.Sku;
 import com.leyou.pojo.SpecParam;
 import com.leyou.pojo.Spu;
 import com.leyou.pojo.SpuDetail;
+import com.leyou.search.repository.GoodsRepository;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,9 @@ public class GoodsService {
     private SpecClient specClient;
     @Autowired
     private SpuClient spuClient;
+
+    @Autowired
+    GoodsRepository goodsRepository;
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -129,5 +133,29 @@ public class GoodsService {
             }
         }
         return result;
+    }
+
+    /**
+     * 监听消息修改es数据
+     *
+     * @param spuId
+     */
+    public void editEs(Long spuId) throws Exception {
+        //获取Spu
+        Spu spu = spuClient.selectSpuBySpuId(spuId);
+
+        //将spu转成goods 异常必须抛出
+        Goods goods = this.convert(spu);
+
+        //持久化到es
+        goodsRepository.save(goods);
+    }
+    /**
+     * 监听消息删除es数据
+     *
+     * @param spuId
+     */
+    public void deleteEs(Long spuId) {
+        goodsRepository.deleteById(spuId);
     }
 }
