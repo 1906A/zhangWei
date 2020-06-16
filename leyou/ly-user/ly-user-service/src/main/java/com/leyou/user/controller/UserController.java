@@ -92,8 +92,18 @@ public class UserController {
      * @return
      */
     @GetMapping("query")
-    public User query(String username, String password) {
-        System.out.println("query:===========" + username + "=========" + password);
+    public User query(@RequestParam("username") String username, @RequestParam("password") String password) {
+        //1：根据用户名查询用户信息
+        User user  = userService.findUser(username);
+        if(user!=null){
+            //2：比对密码
+            String newPassword = DigestUtils.md5Hex(password + user.getSalt());
+            System.out.println("newPassword:"+newPassword);
+            System.out.println("password:"+user.getPassword());
+            if(user.getPassword().equals(newPassword)){
+                return user;
+            }
+        }
         return null;
     }
 
@@ -106,18 +116,18 @@ public class UserController {
      * @return
      */
     @PostMapping("login")
-    public Boolean login(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public Integer login(@RequestParam("username") String username, @RequestParam("password") String password) {
         //根据用户名返回用户对象
         User user = userService.findUser(username);
         if (user != null) {
             //对比密码
             String pwd = DigestUtils.md5Hex(password + user.getSalt());
             if (pwd.equals(user.getPassword())) {
-                return true;
+                return 1;
             }
         }
 
-        return false;
+        return 0;
     }
 
 }
