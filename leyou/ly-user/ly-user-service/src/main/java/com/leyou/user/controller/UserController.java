@@ -91,7 +91,7 @@ public class UserController {
      * @param password
      * @return
      */
-    @GetMapping("query")
+    @GetMapping("/query")
     public User query(@RequestParam("username") String username, @RequestParam("password") String password) {
         //1：根据用户名查询用户信息
         User user  = userService.findUser(username);

@@ -21,15 +21,21 @@ zuul:
     search-service: /search/** # 将搜索微服务映射到/search/**
     user-service: /user/** # 将用户微服务映射到/user/**
     sms-service: /sms/** # 将短信微服务映射到/sms/**
+    auth-service: /auth/** # 将权限管理微服务映射到/auth/**
     host:
       socket-timeout-millis: 60000 #创建socket链接超时时间
       connect-timeout-millis: 60000 #链接超时时间
+  add-host-header: true     #携带本身的head头信息
+  sensitive-headers:
+
+
 ribbon:
   ConnectTimeout: 60000 # 连接超时时间(ms)
   ReadTimeout: 6000 # 通信超时时间(ms)
   OkToRetryOnAllOperations: true # 是否对所有操作重试
   MaxAutoRetriesNextServer: 1 # 同一服务不同实例的重试次数
   MaxAutoRetries: 1 # 同一实例的重试次数
+
 hystrix:
   command:
     default:
@@ -37,3 +43,15 @@ hystrix:
         isolation:
           thread:
             timeoutInMillisecond: 10000 # 熔断超时时长：10000ms
+leyou:
+  jwt:
+    pubKeyPath: C:\\tmp\\rsa\\rsa.pub # 公钥地址
+    cookieName: token
+  filter:
+      allowPaths: #白名单
+        - /api/auth
+        - /api/search
+        - /api/user/register
+        - /api/user/check
+        - /api/user/code
+        - /api/item
