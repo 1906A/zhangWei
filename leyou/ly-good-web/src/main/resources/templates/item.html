@@ -667,35 +667,45 @@
                 this.ly.http("/auth/verify").then(res => {
                     this.user = res.data;
                     if (this.user.id == null) {
-                        alert("未登录")
+                        // alert("未登录")
 
                         //从 local store 根据指定key carts 取出value值 ,没有就为空数组
                         let carts = this.ly.store.get("carts") || [];
                         //遍历对比数组中的cart对象的 id 是否被添加过,
                         let cart = carts.find(c => c.skuId === this.sku.id);
 
-                        //判断cart对象是否存在
+                        //定义对象存放每次选中的那条数据
+                        let selectSku={};
+
+                        //判断cart对象是否存在,true存在
                         if (cart) {
 
                             //已存在过,将本次添加的商品数量与之前的累加
                             cart.num = cart.num + this.num;
 
+                            //将存在的那条已经更新过数量后的数据值作为选中的对象
+                            selectSku=cart;
                         } else {
                             //不存在,添加cart对象
                             //初始化 cart 对象
                             cart = {
                                 skuId: this.sku.id,
-                                titile: this.sku.title,
+                                title: this.sku.title,
                                 price: this.sku.price,
                                 image: this.sku.images,
                                 num: this.num,
                                 ownSpec: this.sku.ownSpec,
                             }
-                        }
+                            //第一次添加的sku是选中的对象
+                            selectSku=cart;
 //给数组赋值,值为cart对象
-                        carts.push(cart);
+                            carts.push(cart);
+                        }
+
 //	将数组 放入local storege 里边
                         this.ly.store.set("carts", carts);
+
+                        this.ly.store.set("selectSku", selectSku);
 
 
                     } else {
