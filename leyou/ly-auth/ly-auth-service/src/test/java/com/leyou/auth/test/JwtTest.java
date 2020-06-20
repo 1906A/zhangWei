@@ -38,7 +38,11 @@ public class JwtTest {
 
     @Test
     public void testParseToken() throws Exception {
-        String token = "eyJhbGciOiJSUzI1NiJ9.eyJpZCI6MjAsInVzZXJuYW1lIjoiamFjayIsImV4cCI6MTU5MjMyMjA4MX0.Rho4rFyxL5Gnbq0Z4ibYNJod64Hsf4FvOosQ7sByjriT29mKfmQ0nfFKH9CfyBGIcT0oZBSJc-O5yYbnTIDwtLaKXa_F5XqAmZ0gAvoyuMla9JqHBES5DNSvXjB2zUkx7B11e8S1ZNcYquZhbT_6g6Go3tAs6o_FoZQWOeyj04A";
+        String token = "eyJhbGciOiJSUzI1NiJ9" +
+                "." +
+                "eyJpZCI6MjAsInVzZXJuYW1lIjoiamFjayIsImV4cCI6MTU5MjMyMjA4MX0" +
+                "." +
+                "Rho4rFyxL5Gnbq0Z4ibYNJod64Hsf4FvOosQ7sByjriT29mKfmQ0nfFKH9CfyBGIcT0oZBSJc-O5yYbnTIDwtLaKXa_F5XqAmZ0gAvoyuMla9JqHBES5DNSvXjB2zUkx7B11e8S1ZNcYquZhbT_6g6Go3tAs6o_FoZQWOeyj04A";
 
         // 解析token
         UserInfo user = JwtUtils.getInfoFromToken(token, publicKey);

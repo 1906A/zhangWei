@@ -4,7 +4,6 @@ spring:
   application:
     name: cart-service
 
-
 eureka:
   client:
     service-url:
@@ -12,3 +11,8 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
     lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+
+leyou:
+  jwt:
+    pubKeyPath: C:\\tmp\\rsa\\rsa.pub # 公钥地址
+    cookieName: token
