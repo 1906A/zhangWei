@@ -5,6 +5,9 @@ import com.leyou.auth.common.UserInfo;
 import com.leyou.cart.config.JwtProperties;
 import com.leyou.cart.pojo.SkuVo;
 import com.leyou.utils.JsonUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -15,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@Api("购物车服务接口")
 public class CartController {
     /**
      * 购物车数据存放redis
@@ -56,7 +60,9 @@ public class CartController {
      * @param skuVo
      * @param token 添加购物车数据到redis,@CookieValue("token") 从浏览器的cookie中取值叫token的信息
      */
-    @RequestMapping("addCart")
+    @ApiOperation(notes = "添加到购物车",value = "添加到购物车")
+    @ApiImplicitParam(name = "skuVo",required = true,value = "当前操作的json格式的商品信息")
+    @PostMapping("addCart")
     public void addCart(@CookieValue("token") String token, @RequestBody SkuVo skuVo) {
         //校验用户状态
         UserInfo userInfo = this.getUserInfoByToken(token);
@@ -118,7 +124,7 @@ public class CartController {
      * @param token
      * @param skuVo
      */
-    @RequestMapping("updateCart")
+    @PostMapping("updateCart")
     public void updateCart(@CookieValue("token") String token, @RequestBody SkuVo skuVo) {
         //校验用户状态
         UserInfo userInfo = this.getUserInfoByToken(token);

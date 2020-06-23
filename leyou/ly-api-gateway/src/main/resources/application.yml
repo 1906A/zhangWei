@@ -23,6 +23,7 @@ zuul:
     sms-service: /sms/** # 将短信微服务映射到/sms/**
     auth-service: /auth/** # 将权限管理微服务映射到/auth/**
     cart-service: /cart/** # 将购物车微服务映射到/cart/**
+    order-service: /order/**
     host:
       socket-timeout-millis: 60000 #创建socket链接超时时间
       connect-timeout-millis: 60000 #链接超时时间
