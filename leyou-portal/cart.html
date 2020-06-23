@@ -50,7 +50,7 @@
                                 </li>
                                 <li class="yui3-u-11-24">
                                     <div class="good-item">
-                                        <div class="item-img"><img :src="cart.image" width="80px" height="80px"/></div>
+                                        <div class="item-img"><img :src="cart.images" width="80px" height="80px"/></div>
                                         <div class="item-msg">
 												<span style="line-height:70px ">
                                                     {{cart.title}}
@@ -70,7 +70,7 @@
                                 <li class="yui3-u-1-8"><span style="line-height:70px " class="sum">{{ly.formatPrice(cart.price*cart.num)}}</span>
                                 </li>
                                 <li class="yui3-u-1-8">
-                                    <a href="#none" @click="deleteCart(i)">删除</a><br/>
+                                    <a href="#none" @click="deleteCart(cart,i)">删除</a><br/>
                                     <a href="#none">移到我的关注</a>
                                 </li>
                             </ul>
@@ -280,9 +280,16 @@
                 this.user = res.data;
                 if (this.user.id == null) {
                     this.carts = ly.store.get("carts")
-                    this.selected=this.carts;
+                    this.selected = this.carts;
                 } else {
-                    alert("已登录")
+                    // alert("已登录")
+
+                    this.ly.http("/cart/getCart").then(value => {
+                        this.carts = value.data;
+                        this.carts.image = value.data.images;
+                        this.selected = this.carts;
+
+                    })
                 }
             })
         },
@@ -306,7 +313,7 @@
                     });
 
             },
-            deleteCart(i) { //当前商品和所属下标
+            deleteCart(cart, i) { //当前商品和所属下标
                 this.ly.http("/auth/verify")
                     .then(value => {
                         let user = value.data;
@@ -317,7 +324,12 @@
                             //数量发生变化时对local storege 的数据刷新
                             ly.store.set("carts", this.carts);
                         } else {
-                            alert("已登录")
+                            // alert("已登录")
+                            this.ly.http.post("/cart/deleteCart?id=" + cart.id).then(val => {
+                                //刷新页面
+                                window.location.reload();
+                            })
+
                         }
                     });
 
@@ -347,7 +359,12 @@
                             //数量发生变化时对local storege 的数据刷新
                             ly.store.set("carts", this.carts);
                         } else {
-                            alert("已登录")
+                            // alert("已登录")
+                            this.ly.http.post("/cart/updateCart", cart).then(val => {
+                                // console.log(cart);
+                            })
+
+
                         }
                     });
                 //刷新selected的数量
@@ -371,7 +388,9 @@
                                 //数量发生变化时对local storege 的数据刷新
                                 ly.store.set("carts", this.carts);
                             } else {
-                                alert("已登录")
+                                this.ly.http.post("/cart/updateCart", cart).then(val => {
+                                    // console.log(cart);
+                                })
 
                             }
                         });

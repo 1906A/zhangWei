@@ -44,7 +44,7 @@
         <h3><i class="sui-icon icon-pc-right"></i>商品已成功加入购物车！</h3>
         <div class="goods">
             <div class="left-good">
-                <div class="left-pic"><img :src="selectSku.image"></div>
+                <div class="left-pic"><img :src="selectSku.images"></div>
                 <div class="right-info">
                     <p class="title">{{selectSku.title}}</p>
                     <p class="attr">颜色：{{ownSpec}} 数量：{{selectSku.num}}</p>
@@ -660,18 +660,37 @@
         el: "#app",
         data: {
             ly,
-            selectSku:{},
-            ownSpec:"",
+            selectSku: {},
+            ownSpec: "",
         },
-        methods: {
-
-        },
+        methods: {},
         created() {
-            //获取购物车选中的商品
-            this.selectSku= this.ly.store.get("selectSku");
-            //解析json格式的规格参数,使用es6的获取指定value方法,取出每个 value值,给每个值之间使用/分隔,对应格式
-           this.ownSpec = Object.values(JSON.parse(this.selectSku.ownSpec)).join("/");
 
+
+            this.ly.http("/auth/verify").then(res => {
+                this.user = res.data;
+                if (this.user.id == null) {
+//                          未登录
+
+
+                    //获取购物车选中的商品
+                    this.selectSku = this.ly.store.get("selectSku");
+                    //解析json格式的规格参数,使用es6的获取指定value方法,取出每个 value值,给每个值之间使用/分隔,对应格式
+                    this.ownSpec = Object.values(JSON.parse(this.selectSku.ownSpec)).join("/");
+
+                } else {
+                    //已登录===
+
+
+                    this.ly.http("/cart/selectedSkuVo").then(res => {
+
+                        this.selectSku=res.data;
+                        this.ownSpec = Object.values(JSON.parse(this.selectSku.ownSpec)).join("/");
+
+                    })
+
+                }
+            })
         }
     });
 </script>

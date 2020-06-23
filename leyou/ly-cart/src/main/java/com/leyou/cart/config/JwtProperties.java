@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 import java.security.PublicKey;
 
-@Data
 @Configuration
+@Data
 @ConfigurationProperties("leyou.jwt")
 public class JwtProperties {
 
