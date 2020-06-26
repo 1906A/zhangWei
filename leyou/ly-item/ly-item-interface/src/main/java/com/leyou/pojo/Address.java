@@ -15,9 +15,10 @@ public class Address {
     private String state;
     private String city;
     private String district;
+    @Column(name = "address")
     private String address;
     @Column(name = "zipCode")
-    private String zipcode;
+    private String zipCode;
     private Boolean defaulte;
     @Transient
     private String all;

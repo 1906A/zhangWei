@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("address")
 public class AddressController {
     @Autowired
     AddressService addressService;
@@ -17,8 +18,8 @@ public class AddressController {
         return addressService.selectAll();
     }
 
-    @PostMapping("addAddress")
-    public void addAddress(@RequestBody Address address) {
+    @PostMapping("editAddress")
+    public void editAddress(@RequestBody Address address) {
         /*{
 	"name":"张三",
 	"phone":"15139233408",
@@ -26,21 +27,22 @@ public class AddressController {
 	"zipcode":"453000",
 	"defaulte":"false"
 }*/
-        addressService.addAddress(address);
+
+        if (address.getId()==null) {
+            addressService.addAddress(address);
+        }else {
+            addressService.updateAddress(address);
+        }
     }
 
-    @PostMapping("updateAddress")
-    public void updateAddress(@RequestBody Address address) {
-        addressService.updateAddress(address);
-    }
 
     @GetMapping("selectById")
-    public Address selectById(@RequestParam("id")Integer id){
+    public Address selectById(@RequestParam("id") Integer id) {
         return addressService.selectById(id);
     }
 
-    @GetMapping("delete")
-    public void delete(@RequestParam("id")Integer id){
+    @GetMapping("deleteAddress")
+    public void delete(@RequestParam("id") Integer id) {
         addressService.deleteAddress(id);
     }
 }

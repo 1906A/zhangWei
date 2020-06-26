@@ -300,7 +300,7 @@
                     .then(value => {
                         let user = value.data;
                         if (user.id == null) {
-                            alert("1")
+                            alert("未登录")
                             //未登录
                             location.href = "http://www.leyou.com/login.html?returnUrl=" + location.href;
                         } else {
